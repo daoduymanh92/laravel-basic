@@ -15,5 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/about/{name}', 'TestController@about');
-Route::get('/tinh-tong/{number}', 'TestController@tinhTong');
+
+Route::get('users', 'UserController@users');
+Route::post('users', 'UserController@postUser');
