@@ -15,7 +15,7 @@ class UserController extends Controller
 
 
     }
-    public function postUser(Request $request) {
+    public function filterUser(Request $request) {
     	// dd($request->all());
     	$age = $request->age;
     	$weight = $request->weight;
@@ -43,5 +43,35 @@ class UserController extends Controller
     			->with('age', $age)
     			->with('weight', $weight)
     			->with('users', $users);
+    }
+
+    // get Detail
+    public function getDetail($id) {
+    	$user = User::find($id); //User::where('id', $id)->first();
+    	return view('users.detail')->with('user', $user);
+    }
+    // post user
+    public function postUser(Request $request) {
+	    $validatedData = $request->validate([
+	    	'name' => 'required',
+	    	'age' => 'required|numeric',
+	    	'weight' => 'required|numeric'
+	    ]);
+
+	    $id = $request->id;
+	    $name = $request->name;
+	    $age = $request->age;
+	    $weight = $request->weight;
+
+	    User::where('id', $id)
+	    		->update(
+	    			array(
+	    				'name' => $name,
+	    				'age' => $age,
+	    				'weight' => $weight
+	    			)
+	    		);
+
+	   	return redirect('users');
     }
 }

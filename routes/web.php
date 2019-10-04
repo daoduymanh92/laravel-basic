@@ -17,4 +17,9 @@ Route::get('/', function () {
 
 
 Route::get('users', 'UserController@users');
-Route::post('users', 'UserController@postUser');
+Route::post('users', 'UserController@filterUser');
+
+//Detail
+Route::get('user/{id}', 'UserController@getDetail')->name('user-detail');
+
+Route::post('user', 'UserController@postUser')->name('post-user');
