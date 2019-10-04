@@ -6,8 +6,12 @@
 </head>
 <body>
 	<div class="container-fluid">
+
 		<div class="row">
 			<div class="col-lg-12">
+				<div>
+					<a href="/new-user">Create a user</a>
+				</div>
 				<div id="search">
 					<form method="POST" action="/users">
 						@csrf

@@ -23,3 +23,5 @@ Route::post('users', 'UserController@filterUser');
 Route::get('user/{id}', 'UserController@getDetail')->name('user-detail');
 
 Route::post('user', 'UserController@postUser')->name('post-user');
+
+Route::get('new-user', 'UserController@newUser');

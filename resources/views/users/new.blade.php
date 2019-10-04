@@ -26,22 +26,27 @@
 				  <div class="form-group">
 				    <label for="inputEmail3" class="col-sm-2 control-label">Name</label>
 				    <div class="col-sm-10">
-				      <input type="text" class="form-control" id="inputEmail3" placeholder="Email" name="name" value="{{ $user->name }}">
+				      <input type="text" class="form-control" id="inputEmail3" placeholder="Email" name="name" value="">
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="inputPassword3" class="col-sm-2 control-label">Email</label>
+				    <div class="col-sm-10">
+				      <input type="email" class="form-control" id="inputPassword3" placeholder="Email" name="email" >
 				    </div>
 				  </div>
 				  <div class="form-group">
 				    <label for="inputPassword3" class="col-sm-2 control-label">Age</label>
 				    <div class="col-sm-10">
-				      <input type="number" class="form-control" id="inputPassword3" placeholder="Password" name="age" value="{{ $user->age }}" min="5" max="100">
+				      <input type="number" class="form-control" id="inputPassword3" placeholder="Age" name="age" value="" min="5" max="100">
 				    </div>
 				  </div>
 				  <div class="form-group">
 				    <label for="inputPassword3" class="col-sm-2 control-label">Weight</label>
 				    <div class="col-sm-10">
-				      <input type="number" class="form-control" id="inputPassword3" placeholder="Password" name="weight" value="{{ $user->weight }}">
+				      <input type="number" class="form-control" id="inputPassword3" placeholder="Weight" name="weight" value="">
 				    </div>
 				  </div>
-				  <input type="hidden" name="id" value="{{ $user->id }}">
 				  <div class="form-group">
 				    <div class="col-sm-offset-2 col-sm-10">
 				      <button type="submit" class="btn btn-default">Submit</button>

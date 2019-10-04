@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 use App\User;
 
@@ -54,24 +55,40 @@ class UserController extends Controller
     public function postUser(Request $request) {
 	    $validatedData = $request->validate([
 	    	'name' => 'required',
-	    	'age' => 'required|numeric',
-	    	'weight' => 'required|numeric'
+	    	'age' => 'required|numeric|min:5',
+	    	'weight' => 'required|numeric',
+	    	'email' => 'required|email'
 	    ]);
 
 	    $id = $request->id;
 	    $name = $request->name;
 	    $age = $request->age;
 	    $weight = $request->weight;
-
-	    User::where('id', $id)
-	    		->update(
-	    			array(
-	    				'name' => $name,
-	    				'age' => $age,
-	    				'weight' => $weight
-	    			)
-	    		);
-
+	    $email = $request->email;
+	    //update
+	    if($id) {
+		    User::where('id', $id)
+		    		->update(
+		    			array(
+		    				'name' => $name,
+		    				'age' => $age,
+		    				'weight' => $weight,
+		    				'email' => $email
+		    			)
+		    		);	    	
+		 } else {
+		 	$user = new User;
+		 	$user->age = $age;
+		 	$user->weight = $weight;
+		 	$user->name = $name;
+		 	$user->email = $email;
+		 	$user->password = Hash::make('123456');
+		 	$user->save();
+		 }
 	   	return redirect('users');
+    }
+    //create user
+    public function newUser(){
+    	return view('users.new');
     }
 }
