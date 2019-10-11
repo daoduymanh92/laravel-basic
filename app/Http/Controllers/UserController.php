@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Validator;
 
 use App\User;
 
@@ -11,10 +12,22 @@ class UserController extends Controller
 {
     //
     public function users(Request $request) {
-    	$users = User::all();
-    	return view('users.index')->with('users', $users);
+    	return view('users.index');
+    }
+    // get user table html
+    public function userTable() {
+        $users = User::all();
 
-
+        $view = view('users.render.user_table')->with('users', $users)->render(); //render() to convert view object to string
+        return response()->json(
+            ['view' => $view]
+        );
+    }
+    public function getUser() {
+        $users = User::all();
+        return response()->json(
+            $users, 200
+        );
     }
     public function filterUser(Request $request) {
     	// dd($request->all());
@@ -53,7 +66,7 @@ class UserController extends Controller
     }
     // post user
     public function postUser(Request $request) {
-	    $validatedData = $request->validate([
+	    $request->validate([
 	    	'name' => 'required',
 	    	'age' => 'required|numeric|min:5',
 	    	'weight' => 'required|numeric',
@@ -90,5 +103,29 @@ class UserController extends Controller
     //create user
     public function newUser(){
     	return view('users.new');
+    }
+
+    //delete user
+    public function deleteUser(Request $request) {
+        // dd($request->id);
+        $validator = Validator::make($request->all(), [
+            'id' => 'required'
+        ]);
+
+        if($validator->fails()) {
+            return response()->json($validator->errors() , 401);            
+        }
+        $id = $request->id;
+
+        $delete = User::where('id', $id)->delete();
+        if($delete) {
+            return response()->json(
+                ['msg' => 'Ban xoa thanh cong'], 200
+            );
+        } else {
+            return response()->json(
+                ['msg' => 'Ban xoa that bai'], 401
+            );
+        }
     }
 }

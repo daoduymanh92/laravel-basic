@@ -24,4 +24,9 @@ Route::get('user/{id}', 'UserController@getDetail')->name('user-detail');
 
 Route::post('user', 'UserController@postUser')->name('post-user');
 
+Route::get('user-table', 'UserController@userTable');
+
 Route::get('new-user', 'UserController@newUser');
+
+
+Route::post('delete-user', 'UserController@deleteUser');
