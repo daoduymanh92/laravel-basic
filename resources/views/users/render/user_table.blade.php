@@ -1,5 +1,5 @@
 @if($users->isNotEmpty())
-	<table class="table">
+	<table class="table" id="user-list">
 		<tr>
 			<th>ID</th>
 			<th>Name</th>
@@ -9,12 +9,12 @@
 			<th>Delete</th>
 		</tr>
 		@foreach($users as $user)
-			<tr>
+			<tr uid="{{ $user->id }}">
 				<td>{{ $user->id }}</td>
 				<td>{{ $user->name }}</td>
 				<td>{{ $user->age }}</td>
 				<td>{{ $user->weight }}</td>
-				<td><a href="{{ route('user-detail', $user->id) }}">View</a></td>
+				<td><button id="view-detail">View</button></td>
 				<td><button id="delete-user" value="{{ $user->id }}">Delete</button></td>
 			</tr>
 		@endforeach

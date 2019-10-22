@@ -62,16 +62,26 @@ class UserController extends Controller
     // get Detail
     public function getDetail($id) {
     	$user = User::find($id); //User::where('id', $id)->first();
-    	return view('users.detail')->with('user', $user);
+        return response()->json(
+            [
+                'user' => $user,
+                'msg' => 'Create a user successfully'
+            ]
+        );  
     }
     // post user
     public function postUser(Request $request) {
-	    $request->validate([
+	    $validator = Validator::make($request->all() ,[
 	    	'name' => 'required',
 	    	'age' => 'required|numeric|min:5',
 	    	'weight' => 'required|numeric',
-	    	'email' => 'required|email'
+	    	'email' => 'required|email',
+            'id' => 'required|numeric'
 	    ]);
+
+        if($validator->fails()) {
+            return response()->json($validator->errors() , 401);            
+        }
 
 	    $id = $request->id;
 	    $name = $request->name;
@@ -79,26 +89,53 @@ class UserController extends Controller
 	    $weight = $request->weight;
 	    $email = $request->email;
 	    //update
-	    if($id) {
-		    User::where('id', $id)
-		    		->update(
-		    			array(
-		    				'name' => $name,
-		    				'age' => $age,
-		    				'weight' => $weight,
-		    				'email' => $email
-		    			)
-		    		);	    	
-		 } else {
-		 	$user = new User;
-		 	$user->age = $age;
-		 	$user->weight = $weight;
-		 	$user->name = $name;
-		 	$user->email = $email;
-		 	$user->password = Hash::make('123456');
-		 	$user->save();
-		 }
-	   	return redirect('users');
+        User::where('id', $id)
+                ->update(
+                    array(
+                        'name' => $name,
+                        'age' => $age,
+                        'weight' => $weight,
+                        'email' => $email
+                    )
+                );  
+        return response()->json(
+            [
+                'msg' => 'Update a user successfully'
+            ]
+        ); 
+    }
+    // post new user
+    public function createUser(Request $request) {
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'age' => 'required|numeric|min:5',
+            'weight' => 'required|numeric',
+            'email' => 'required|email'
+        ]);
+
+        if($validator->fails()) {
+            return response()->json($validator->errors() , 401);            
+        }
+        $name = $request->name;
+        $age = $request->age;
+        $weight = $request->weight;
+        $email = $request->email;
+
+        $user = new User;
+        $user->age = $age;
+        $user->weight = $weight;
+        $user->name = $name;
+        $user->email = $email;
+        $user->password = Hash::make('123456');
+        $user->save();
+
+        return response()->json(
+            [
+                'user' => $user,
+                'msg' => 'Create a user successfully'
+            ]
+        );      
     }
     //create user
     public function newUser(){
